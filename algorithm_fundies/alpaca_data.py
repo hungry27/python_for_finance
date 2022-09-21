@@ -7,7 +7,6 @@ from alpaca.data.timeframe import TimeFrame
 crypto_client = CryptoHistoricalDataClient()
 
 # keys required
-stock_client = StockHistoricalDataClient("PKG7ZA2YRCQ51BK2PY7I",  "rO2h3mj1wxol8YRfEUiM2DLL9efA3IdXQhAZP5DW")
 
 # multi symbol request - single symbol is similar
 multisymbol_request_params = StockLatestQuoteRequest(symbol_or_symbols=["SPY", "GLD", "TLT"])
