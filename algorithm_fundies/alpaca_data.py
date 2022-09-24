@@ -12,9 +12,9 @@ crypto_client = CryptoHistoricalDataClient()
 # multi symbol request - single symbol is similar
 multisymbol_request_params = StockLatestQuoteRequest(symbol_or_symbols=["SPY", "GLD", "TLT"])
 
-latest_multisymbol_quotes = stock_client.get_stock_latest_quote(multisymbol_request_params)
+#latest_multisymbol_quotes = stock_client.get_stock_latest_quote(multisymbol_request_params)
 
-gld_latest_ask_price = latest_multisymbol_quotes["GLD"].ask_price
+#gld_latest_ask_price = latest_multisymbol_quotes["GLD"].ask_price
 
 # no keys required for crypto data
 client = CryptoHistoricalDataClient()
