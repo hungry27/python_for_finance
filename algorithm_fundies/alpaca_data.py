@@ -8,6 +8,7 @@ crypto_client = CryptoHistoricalDataClient()
 
 # keys required
 
+
 # multi symbol request - single symbol is similar
 multisymbol_request_params = StockLatestQuoteRequest(symbol_or_symbols=["SPY", "GLD", "TLT"])
 
