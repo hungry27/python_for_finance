@@ -69,3 +69,21 @@ plt.legend()
 plt.show()
 
 # %%
+def regress_from_optimum (data: np.ndarray, optimum: np.ndarray) -> (int, int):
+
+    # Regress Optimum Function - Performs linear regression on last peak or trough.
+    
+    # Parameters**
+    
+    # Pricing data, 
+    # Peak/trough indexing number
+    
+    # Returns - Slope, y-intercept
+ 
+    opt = optimum[-1]
+    data = np.array(data[opt:]).reshape(-1,1)
+    x_axis = np.array([i + opt for i in range(len(data))]).reshape(-1,1)
+    model = LinearRegression(fit_intercept=True).fit(x_axis,data)
+    b = model.intercept_
+    m = model.coef_
+    return m ,b
