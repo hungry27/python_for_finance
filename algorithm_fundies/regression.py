@@ -57,7 +57,7 @@ def regress_optima(data: np.ndarray, optima: np.ndarray, lb: int) -> (int,int):
 mPeaks, bPeaks = regress_optima(series,peaks,len(peaks))
 mTroughs, bTroughs = regress_optima(series, troughs, len(troughs))
 
-print(mPeaks, mTroughs)
+#print(mPeaks, mTroughs)
 
 #plot the series with its peaks and troughs and their regression lines, add a legend as well
 
@@ -122,5 +122,51 @@ plt.plot(series, color="gray", label="Pricing Data")
 plt.plot(peaks, series[peaks], "o", color='green', label='Peaks')
 plt.plot(troughs, series[troughs], "x", color='red', label='Troughs')
 plt.legend()
+plt.show()
 
-    # %%
+ # %%
+def bullish(data: np.ndarray, peak: np.ndarray, trough: np.ndarray, X) -> bool:
+    m_peaks, b_peaks = regress_optima(series,peaks,len(peaks))
+    m_troughs, b_troughs = regress_optima(series, troughs, len(troughs))
+
+    # if the regression channel is negative don't trade
+    if (m_peaks < 0 ) and (m_troughs < 0):
+        return False
+    # if the regression channel is positive look for more criteria
+    elif (m_peaks > 0 ) and (m_troughs > 0):
+        #if X is in troughs and the next candle is recovering from the dip --> Buy
+        if X in troughs and series[X]< series [X+1]:
+            return True
+        # if X is in troughs and price action is still falling wait.
+        elif X in troughs and series [X] > series[X+1]:
+            return False
+        #if price is greater than the peaks regression line wait
+        elif series[X] > (m_peaks*series[X] + b_peaks):
+            return False
+        elif series [X] < (m_troughs * series[X] + b_troughs):
+            return True
+    else:
+        return False
+    
+# %%
+
+#loop through our x axis to feed Bullish every data point to check Conditions.
+# Append all true outputs to BUY to later plot on a chart
+
+counter = np.array(range(0,1000)).reshape(-1,1)
+tt = np.ndarray(counter.shape, bool)
+buy = []
+for i in list(counter):
+    tt[i] = bullish(series,peaks,troughs,i)
+for j in list(counter):
+    if tt[j] != False:
+        buy.append(j)
+
+#plotting the outputs of my bullish function
+plt.plot(series, color = 'orange')
+plt.plot(buy,series[buy], 'x', color = 'green', label = "buy signal")
+plt.legend()
+plt.show()
+
+
+# %%
