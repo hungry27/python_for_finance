@@ -107,8 +107,20 @@ def regress_mid(data: np.ndarray, peak: np.ndarray, trough: np.ndarray, lb:int) 
     m = (m1+m2)/2
     b = (b1+b2)/2
 
-    print (m1, m2)
-    print (b1,b2)
+    # print (m1, m2)
+    # print (b1,b2)
 
     return m, b
+#Call regress_mid on both peaks and troughs
+midM, midB = regress_mid(series,peaks,troughs,len(troughs))
+
+#Plot the series with its peaks and troughs as well as your generated mid line
+plt.axline((0,bPeaks),slope = mPeaks, color='blue', linestyle = 'dashed', label = 'Peaks Linear Regression')
+plt.axline((0,bTroughs), slope = mTroughs, color='orange', linestyle = 'dashed', label = "Troughs Linear Regression")
+plt.axline((0,midB), slope=midM, color='black', linestyle='dashed', label = 'Middle Linear Regression')
+plt.plot(series, color="gray", label="Pricing Data")
+plt.plot(peaks, series[peaks], "o", color='green', label='Peaks')
+plt.plot(troughs, series[troughs], "x", color='red', label='Troughs')
+plt.legend()
+
     # %%
