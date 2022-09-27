@@ -3,6 +3,7 @@
 from cProfile import label
 import numpy as np
 from matplotlib import pyplot as plt
+from pyparsing import line
 from scipy.signal import find_peaks
 from sklearn.linear_model import LinearRegression
 
@@ -87,3 +88,27 @@ def regress_from_optimum (data: np.ndarray, optimum: np.ndarray) -> (int, int):
     b = model.intercept_
     m = model.coef_
     return m ,b
+
+def regress_mid(data: np.ndarray, peak: np.ndarray, trough: np.ndarray, lb:int) -> (int,int):
+
+    # Regress Mid Function - Performs linear regression on the peaks and troughs of a given pricing data and calculates a middle line.
+
+    # Parameters**
+
+    # Pricing data,
+    # Peak indexing np.number
+    # trough indexing number
+    # The number of peak/trough points to be used.
+
+    # Returns - Slope, y-intercept
+    m1, b1 = regress_optima(series,peaks,lb)
+    m2, b2 = regress_optima(series,troughs,lb)
+
+    m = (m1+m2)/2
+    b = (b1+b2)/2
+
+    print (m1, m2)
+    print (b1,b2)
+
+    return m, b
+    # %%
