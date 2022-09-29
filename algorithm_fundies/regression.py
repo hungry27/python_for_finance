@@ -138,8 +138,8 @@ def bullish(data: np.ndarray, peak: np.ndarray, trough: np.ndarray, X) -> bool:
         if X in troughs and series[X]< series [X+1]:
             return True
         # if X is in troughs and price action is still falling wait.
-       # elif X in troughs and series [X] > series[X+1]:
-        #    return False
+        elif X in troughs and series [X] > series[X+1]:
+            return False
         #if price is greater than the peaks regression line wait
         elif series[X] > (m_peaks*series[X] + b_peaks):
             return False
