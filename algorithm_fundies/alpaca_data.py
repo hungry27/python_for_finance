@@ -28,4 +28,5 @@ request_params = CryptoBarsRequest(
 
 bars = client.get_crypto_bars(request_params)
 
-print(bars)
+#print(bars)
+
