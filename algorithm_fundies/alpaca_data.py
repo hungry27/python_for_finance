@@ -79,13 +79,15 @@ df = pd.DataFrame({'date' : Date,
                      'volume' : Volume
 })
 
-print(df)
+#print(df)
 
-
+#Create cashflow column and do an operation to populate it
 df["cashflow"] = ((df.high+df.low)/2) * df.volume
 
-print(df)
 
+#print(df)
+
+#plot the graphs needed. namely OHLC, volume and Cashflow
 
 fig = make_subplots(rows=3, cols=1, shared_xaxes=True, vertical_spacing=0.03, subplot_titles=('OHLC Eth/Usd','Volume (Units)','Cashflow ($ Millions)'),row_width=[0.2,0.2,0.7])
 
@@ -96,7 +98,6 @@ fig.add_trace(go.Ohlc( x = Date,
                     close = Close,
                     name = 'OHLC'),
               row=1, col=1)
-
 fig.add_trace(go.Bar(x=Date,
                      y = df.volume,
                      showlegend=False), row=2, col=1)
