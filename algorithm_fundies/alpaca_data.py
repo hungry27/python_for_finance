@@ -1,5 +1,6 @@
 
 import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 import pandas as pd
 from alpaca.data import CryptoHistoricalDataClient, StockHistoricalDataClient
 from alpaca.data.requests import StockLatestQuoteRequest, CryptoBarsRequest, StockBarsRequest
@@ -36,8 +37,8 @@ bars = client.get_crypto_bars(request_params)
 stock_request_params=StockBarsRequest(
        symbol_or_symbols=["AAPL"],
        timeframe=TimeFrame.Minute,
-       start="2022-09-20T13:30:00",
-       end="2022-09-20T21:30:00"
+       start="2022-09-10T13:00:00",
+       end="2022-09-10T21:00:00"
 )
 stock_bars = stock_client.get_stock_bars(stock_request_params)
 print(stock_bars)
@@ -49,6 +50,7 @@ def extract_ohlc(stock_bars):
        Close =[]
        High =[]
        Low =[]
+       Volume = []
 
        for entry in stock_bars['AAPL']:
               Date.append(entry.timestamp)
@@ -56,16 +58,27 @@ def extract_ohlc(stock_bars):
               Close.append(entry.close)
               High.append(entry.high)
               Low.append(entry.low)
+              Volume.append(entry.volume)
 
-       return Date, Open, Close, High, Low
+       return Date, Open, Close, High, Low, Volume
 
-Date, Open, Close, High, Low = extract_ohlc(stock_bars)
+Date, Open, Close, High, Low, Volume = extract_ohlc(stock_bars)
 
 #plot bars
-fig = go.Figure(data=go.Ohlc( x = Date,
+
+fig = make_subplots(rows=2, cols=1, shared_xaxes=True, vertical_spacing=0.03, subplot_titles=('OHLC','Volume'),row_width=[0.2,0.7])
+
+fig.add_trace(go.Ohlc( x = Date,
                     open = Open,
                     high = High,
                     low = Low,
-                    close = Close))
+                    close = Close,
+                    name = 'OHLC'),
+              row=1, col=1)
+
+fig.add_trace(go.Bar(x=Date,
+                     y = Volume,
+                     showlegend=False), row=2, col=1)
+fig.update(layout_xaxis_rangeslider_visible=False)
 fig.show()
 
