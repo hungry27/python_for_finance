@@ -109,3 +109,6 @@ fig.update(layout_xaxis_rangeslider_visible=False)
 
 fig.show()
 
+def Algorithm ():
+       return
+
